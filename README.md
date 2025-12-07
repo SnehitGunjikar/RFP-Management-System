@@ -293,6 +293,10 @@ Run: `node seed.js`
 
 ---
 
+## Deploy on Vercel and Render
+
+1. Use the DEPLOYMENT.md to know more on how we can deploy on render and vercel. I have explained in detail.
+
 ## 📖 How to Use
 
 ### Creating an RFP
