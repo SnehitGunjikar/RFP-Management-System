@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { rfpAPI, vendorAPI, proposalAPI } from '../services/api';
 
 /**
@@ -8,7 +8,6 @@ import { rfpAPI, vendorAPI, proposalAPI } from '../services/api';
  */
 function RFPDetails() {
     const { id } = useParams();
-    const navigate = useNavigate();
     const [rfp, setRfp] = useState(null);
     const [vendors, setVendors] = useState([]);
     const [selectedVendors, setSelectedVendors] = useState([]);
@@ -19,11 +18,7 @@ function RFPDetails() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    useEffect(() => {
-        loadData();
-    }, [id]);
-
-    const loadData = async () => {
+    const loadData = useCallback(async () => {
         try {
             setLoading(true);
 
@@ -46,7 +41,11 @@ function RFPDetails() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [id]);
+
+    useEffect(() => {
+        loadData();
+    }, [loadData]);
 
     const handleVendorToggle = (vendorId) => {
         setSelectedVendors(prev => {

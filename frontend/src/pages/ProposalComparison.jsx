@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { rfpAPI, proposalAPI } from '../services/api';
 
@@ -14,11 +14,7 @@ function ProposalComparison() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        loadComparison();
-    }, [id]);
-
-    const loadComparison = async () => {
+    const loadComparison = useCallback(async () => {
         try {
             setLoading(true);
 
@@ -38,7 +34,11 @@ function ProposalComparison() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [id]);
+
+    useEffect(() => {
+        loadComparison();
+    }, [loadComparison]);
 
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-US', {
